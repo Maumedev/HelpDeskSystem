@@ -15,6 +15,8 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorPages();
 
+        builder.Services.AddControllers();
+
 
         // EF Core
         builder.Services.AddDbContext<HelpDeskContext>(options =>
@@ -55,8 +57,27 @@ public class Program
             app.UseHsts();
         }
 
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // Esto evita que el navegador guarde el CSS en caché mientras programas
+                    ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store");
+                }
+            });
+        }
+        else
+        {
+            app.UseStaticFiles();
+        }
+
+
+        app.MapControllers();
+
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
+        //app.UseStaticFiles();
 
         app.UseRouting();
 

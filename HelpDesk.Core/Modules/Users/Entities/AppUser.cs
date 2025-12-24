@@ -1,7 +1,7 @@
 ﻿using HelpDesk.Core.Modules.Tickets.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace HelpDesk.Core.Modules.Users.Data;
+namespace HelpDesk.Core.Modules.Users.Entities;
 
 public class AppUser : IdentityUser
 {

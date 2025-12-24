@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Netmentor.ROP" Version="1.12.0" />
+    <PackageReference Include="Netmentor.ROP.ApiExtensions" Version="1.12.0" />
   </ItemGroup>
 
 </Project>

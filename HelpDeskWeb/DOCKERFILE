@@ -1,0 +1,41 @@
+# ETAPA 1: Build (SDK Completo)
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Instalar Node.js (Necesario para tu Tailwind)
+RUN apt-get update && \
+    apt-get install -y nodejs npm
+
+# Copiar csproj y restaurar dependencias
+# 1. Copiamos el CORE primero (La base de la cebolla)
+COPY ["HelpDesk.Core/HelpDesk.Core.csproj", "HelpDesk.Core/"]
+
+# 2. Copiamos INFRASTRUCTURE (Que depende de Core)
+COPY ["HelpDesk.Infrastructure/HelpDesk.Infrastructure.csproj", "HelpDesk.Infrastructure/"]
+
+# 3. Copiamos WEB (Que depende de Infrastructure)
+COPY ["HelpDeskWeb/HelpDeskWeb.csproj", "HelpDeskWeb/"]
+
+# 4. Restauramos desde el punto de entrada (Web)
+# .NET es inteligente: Al restaurar Web, automáticamente restaura Infra y Core
+RUN dotnet restore "HelpDeskWeb/HelpDeskWeb.csproj"
+
+# Copiar todo el código fuente
+COPY . .
+
+WORKDIR /src/HelpDeskWeb
+# Instalar dependencias de Frontend y construir CSS
+RUN npm install
+RUN npx @tailwindcss/cli -i ./StylesTailwind/app.scss -o ./wwwroot/css/site.css
+
+# Publicar la app en modo Release
+RUN dotnet publish "HelpDeskWeb.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# ETAPA 2: Runtime (Imagen ligera solo para ejecutar)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "HelpDeskWeb.dll"]

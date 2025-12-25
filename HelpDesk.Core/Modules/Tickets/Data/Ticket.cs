@@ -1,4 +1,4 @@
-﻿using HelpDesk.Core.Modules.Users.Data;
+﻿using HelpDesk.Core.Modules.Users.Entities;
 
 namespace HelpDesk.Core.Modules.Tickets.Data;
 

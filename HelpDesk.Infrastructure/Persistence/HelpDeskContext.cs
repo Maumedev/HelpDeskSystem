@@ -1,10 +1,10 @@
-﻿
-using HelpDesk.Core.Modules.Tickets.Data;
-using HelpDesk.Core.Modules.Users.Data;
+﻿using HelpDesk.Core.Modules.Tickets.Data;
+using HelpDesk.Core.Modules.Users.Entities;
+using HelpDesk.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace HelpDesk.Infrastructure;
+namespace HelpDesk.Infrastructure.Persistence;
 
 public class HelpDeskContext : IdentityDbContext<AppUser>
 {
@@ -13,6 +13,7 @@ public class HelpDeskContext : IdentityDbContext<AppUser>
     }
 
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -32,6 +33,8 @@ public class HelpDeskContext : IdentityDbContext<AppUser>
                   .HasForeignKey(t => t.AgentId)
                   .OnDelete(DeleteBehavior.Restrict);
         });
+
+        builder.ApplyConfiguration(new RefreshTokenConfiguration());
 
     }
 }

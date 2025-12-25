@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace HelpDeskWeb.Extensions;
+namespace HelpDesk.Infrastructure.Utils;
 
 public static class SeedRoles
 {

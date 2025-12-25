@@ -6,6 +6,7 @@ using HelpDesk.Infrastructure.Persistence;
 using HelpDesk.Infrastructure.Persistence.Repositories;
 using HelpDesk.Infrastructure.Services;
 using HelpDesk.Infrastructure.Utils;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -83,26 +84,10 @@ public static class DependencyInjectionInfrastructure
             .AddExceptionHandler<GlobalExceptionHandler>()
             .AddProblemDetails();
 
-    public static async Task<IServiceProvider> AddUserRoles(this IServiceProvider services)
+    public static async Task<WebApplication> PrepareDbData(this WebApplication app)
     {
-
-        
-
-        using (var scope = services.CreateScope())
-        {
-            var servicesint = scope.ServiceProvider;
-            try
-            {
-                await SeedRoles.SeedRolesAsync(services);
-            }
-            catch (Exception ex)
-            {
-                //var logger = servicesint.GetRequiredService<ILogger<Program>>();
-                //logger.LogError(ex, "Ocurrió un error al crear los roles iniciales.");
-            }
-        }
-
-        return services;
+        DbInitializer.InitDb(app);
+        return app;
     }
 }
 

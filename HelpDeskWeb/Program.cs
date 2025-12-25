@@ -22,7 +22,7 @@ public class Program
 
         app.UseExceptionHandler();
 
-        await app.Services.AddUserRoles();
+        await app.PrepareDbData();
 
 
         if (app.Environment.IsDevelopment())

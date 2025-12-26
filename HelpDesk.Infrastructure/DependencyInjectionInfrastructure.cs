@@ -1,11 +1,13 @@
 ﻿using HelpDesk.Core.Modules.Users.Entities;
 using HelpDesk.Core.Modules.Users.Ports.BearerTokenPorvider;
 using HelpDesk.Core.Modules.Users.Repositories;
+using HelpDesk.Infrastructure.Identity;
 using HelpDesk.Infrastructure.Middlewares;
 using HelpDesk.Infrastructure.Persistence;
 using HelpDesk.Infrastructure.Persistence.Repositories;
 using HelpDesk.Infrastructure.Services;
 using HelpDesk.Infrastructure.Utils;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +24,7 @@ public static class DependencyInjectionInfrastructure
         => services
         .AddDatabaseConnection(configuration)
         .AddIdentity()
+        .AddAuthenticationRazorPages()
         .AddJwtSettings(configuration)
         .AddInfrastructureServices()
         .AddRepositories()
@@ -46,6 +49,28 @@ public static class DependencyInjectionInfrastructure
         .AddEntityFrameworkStores<HelpDeskContext>()
         .AddDefaultTokenProviders();
 
+        return services;
+    }
+    private static IServiceCollection AddAuthenticationRazorPages(
+        this IServiceCollection services)
+    {
+
+        services.AddAuthentication(options =>
+        {
+            // Por defecto, usa Cookies (para que Razor Pages funcione natural)
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        }).AddCookie(options =>
+        {
+            // Configuración de la Cookie
+            options.LoginPath = "/Account/Login"; // Si no está auth, mandar aquí
+            options.LogoutPath = "/Account/Logout";
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            options.SlidingExpiration = true;
+            options.AccessDeniedPath = "/Account/AccessDenied";
+        });
+
+        services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppUserClaimsPrincipalFactory>();
         return services;
     }
     private static IServiceCollection AddJwtSettings(this IServiceCollection services, IConfiguration configuration)

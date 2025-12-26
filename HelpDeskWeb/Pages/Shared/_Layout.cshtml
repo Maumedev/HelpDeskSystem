@@ -9,15 +9,61 @@
 </head>
 <body>
 
-    <div >
+    <div>
         <main role="main" >
             @RenderBody()
         </main>
     </div>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+        @await RenderSectionAsync("Scripts", required: false)
 
+
+    <div id="global-loader" style="display: none;" class="fixed inset-0 z-[9999]">
+    <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center">
+        <div class="flex flex-col items-center">
+            <svg class="animate-spin h-16 w-16 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-4 text-white text-xl font-medium tracking-wide">Procesando solicitud...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.AppLoader = {
+        show: function() {
+            const loader = document.getElementById('global-loader');
+            if (loader) loader.style.display = 'block';
+        },
+        hide: function() {
+            const loader = document.getElementById('global-loader');
+            if (loader) loader.style.display = 'none';
+        }
+    };
+
+    document.addEventListener("submit", function (e) {
+        // 1. Buscamos el formulario que disparó el evento
+        const form = e.target;
+        
+        // 2. Si el formulario tiene data-no-loader, no hacemos nada
+        if (form.dataset.noLoader === "true") return;
+
+        // 3. Pequeño delay para dejar que la validación de ASP.NET (jQuery Unobtrusive) actúe
+        setTimeout(() => {
+            // Verificamos si el formulario es válido (para no bloquear si faltan campos)
+            const isInvalid = form.querySelector('.input-validation-error');
+            if (!isInvalid) {
+                window.AppLoader.show();
+            }
+        }, 10);
+    });
+</script>
+</script>
 </body>
 </html>

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\HelpDesk.Core\HelpDesk.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity/" />
+  </ItemGroup>
+
 </Project>

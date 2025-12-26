@@ -10,7 +10,15 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages(options =>
+        {
+            // ESTRATEGIA: Bloquear todo por defecto (Lista blanca)
+            // Esto asegura que ninguna página sea accesible a menos que digamos lo contrario.
+            options.Conventions.AuthorizeFolder("/"); 
+            // Permitir acceso anónimo a la página de Login (la crearemos más adelante)
+            options.Conventions.AllowAnonymousToPage("/Account/Login");
+            options.Conventions.AllowAnonymousToPage("/Account/Register");
+        });
 
         builder.Services.AddControllers();
 
@@ -47,6 +55,7 @@ public class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapRazorPages();

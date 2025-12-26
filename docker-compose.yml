@@ -1,0 +1,40 @@
+services:
+  # SERVICIO 1: Base de Datos
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_helpdesk_container
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=HelpDesk.2026!Strong # <--- ¡CÁMBIALO!
+    ports:
+      - "1433:1433" # Para que puedas conectar tu Azure Data Studio localmente
+    volumes:
+      - sql_data:/var/opt/mssql # Persistencia de datos (no se borran al apagar)
+    networks:
+      - helpdesk-network
+
+  # SERVICIO 2: Tu Aplicación Web
+  web:
+    build:
+      context: . # Ruta a donde está el Dockerfile
+      dockerfile: HelpDeskWeb/DOCKERFILE
+    container_name: helpdesk_web
+    depends_on:
+      - db # Espera a que el contenedor de DB inicie (aunque el servicio SQL tarde más)
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development # O 'QA'. Esto activa migraciones en tu código.
+      - ASPNETCORE_URLS=http://+:8080
+      # CONEXIÓN CLAVE: Fíjate que el Server es 'db' (el nombre del servicio arriba)
+      - ConnectionStrings__Default=Server=db;Database=HelpDesk;User Id=sa;Password=HelpDesk.2026!Strong;TrustServerCertificate=True;
+    ports:
+      - "5000:8080" # Accedes en tu navegador como localhost:5000
+    networks:
+      - helpdesk-network
+    restart: on-failure # Si SQL Server no está listo y la app falla, se reinicia sola hasta conectar.
+
+volumes:
+  sql_data:
+
+networks:
+  helpdesk-network:
+    driver: bridge

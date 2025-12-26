@@ -1,0 +1,79 @@
+﻿@page
+@model HelpDeskWeb.Pages.Account.RegisterModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = null; // Usamos layout null para login limpio o usa tu _Layout
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - HelpDesk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class=" w-[500px] bg-white rounded-lg shadow-md p-5">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Registro</h2>
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm mb-4 text-center"></div>
+
+            <div class="mb-4 ">
+                <label asp-for="Input.FullName" class="block text-gray-700 text-sm font-bold mb-2">Nombre Completo</label>
+                <input asp-for="Input.FullName" class="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre Apellidos" />
+                <span asp-validation-for="Input.FullName" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Input.Username" class="block text-gray-700 text-sm font-bold mb-2">Usuario</label>
+                <input asp-for="Input.Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="username" />
+                <span asp-validation-for="Input.Username" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Input.Email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input asp-for="Input.Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="usuario@ejemplo.com" />
+                <span asp-validation-for="Input.Email" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Departamento</label>
+                <select asp-for="Input.Department" class="w-full border rounded p-2 appearance-none">
+                    <option value="" disabled selected>Seleccione...</option>
+                    <option value="IT">IT</option>
+                    <option value="RH">Recursos Humanos</option>
+                    <option value="Ventas">Ventas</option>
+                </select>
+                <span asp-validation-for="Input.Department" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2">Seniority Level</label>
+                <select asp-for="Input.SeniorityLevel" class="w-full border rounded p-2">
+                    <option value="0" disabled selected> Seleccione...</option>
+                    <option value="1">Senior</option>
+                    <option value="2">Mid-Senior</option>
+                    <option value="3">Junior</option>
+                </select>
+                <span asp-validation-for="Input.SeniorityLevel" class="text-red-500 text-xs italic"></span>
+            </div>
+
+            <div class="mb-6">
+                <label asp-for="Input.Password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
+                <input asp-for="Input.Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="******************" />
+                <span asp-validation-for="Input.Password" class="text-red-500 text-xs italic"></span>
+                <a href="Login" class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200 ">¿Ya tienes cuenta? Iniciar Sesión</a>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150">
+                    Registrar
+                </button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

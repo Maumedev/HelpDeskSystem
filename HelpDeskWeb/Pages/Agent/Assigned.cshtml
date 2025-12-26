@@ -1,0 +1,123 @@
+﻿@page
+@model HelpDeskWeb.Pages.Agent.AssignedModel
+@{
+    ViewData["Title"] = "Mesa de Ayuda - Agente";
+}
+
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Tickets Asignados</h1>
+    <div class="flex items-center gap-4 mt-2 text-sm">
+        <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            En línea
+        </div>
+        <div class="h-4 w-px bg-gray-300 dark:bg-gray-700"></div>
+        <span class="text-gray-500">Capacidad actual: <span class="font-bold text-gray-900 dark:text-white">4/10</span></span>
+    </div>
+</div>
+
+<div class="border-b border-gray-200 dark:border-gray-700 mb-6">
+    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a href="#" class="border-blue-500 text-blue-600 dark:text-blue-400 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium flex items-center gap-2">
+            Mis Asignaciones
+            <span class="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 py-0.5 px-2 rounded-full text-xs">4</span>
+        </a>
+        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Cola General
+            <span class="bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 py-0.5 px-2 rounded-full text-xs ml-2">12</span>
+        </a>
+        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+            Resueltos hoy
+        </a>
+    </nav>
+</div>
+
+<div class="card overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm whitespace-nowrap">
+            <thead class="uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-semibold text-gray-500 dark:text-gray-400">Prioridad</th>
+                    <th scope="col" class="px-6 py-3 font-semibold text-gray-500 dark:text-gray-400">Ticket & Asunto</th>
+                    <th scope="col" class="px-6 py-3 font-semibold text-gray-500 dark:text-gray-400">Solicitante</th>
+                    <th scope="col" class="px-6 py-3 font-semibold text-gray-500 dark:text-gray-400">Estado</th>
+                    <th scope="col" class="px-6 py-3 font-semibold text-gray-500 dark:text-gray-400 text-right">Acción</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                
+                <tr class="hover:bg-red-50/50 dark:hover:bg-red-900/10 transition-colors group">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2 text-red-600 dark:text-red-400 font-bold text-xs uppercase tracking-wide">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Crítica
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-mono text-gray-400">#TK-9001</span>
+                            <span class="font-medium text-gray-900 dark:text-white">Servidor de Producción Caído</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-300 flex items-center justify-center font-bold text-xs">
+                                JD
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">John Doe</span>
+                                <span class="text-xs text-gray-500">DevOps Team</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300">
+                            Abierto hace 10m
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <a href="#" class="btn-primary py-1.5 px-3 text-xs bg-red-600 hover:bg-red-700 border-red-600">
+                            Atender
+                        </a>
+                    </td>
+                </tr>
+
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-xs uppercase tracking-wide">
+                            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                            Normal
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-mono text-gray-400">#TK-8992</span>
+                            <span class="font-medium text-gray-900 dark:text-white">Actualización de Licencia Office</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-300 flex items-center justify-center font-bold text-xs">
+                                AM
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">Ana Maria</span>
+                                <span class="text-xs text-gray-500">Recursos Humanos</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800">
+                            En proceso (2h)
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                         <button class="text-gray-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

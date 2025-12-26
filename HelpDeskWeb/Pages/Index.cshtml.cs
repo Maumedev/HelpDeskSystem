@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using HelpDeskWeb.Pages.Shared;
 
 namespace HelpDeskWeb.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModelModel
     {
         private readonly ILogger<IndexModel> _logger;
 
@@ -14,7 +15,8 @@ namespace HelpDeskWeb.Pages
 
         public void OnGet()
         {
-
+            // NotifySuccess("¡Aplicación cargada con éxito!");
+            // NotifyError("¡Aplicación con error!");
         }
     }
 }

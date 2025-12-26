@@ -1,0 +1,96 @@
+﻿@page
+@model HelpDeskWeb.Pages.Customer.MyTicketsModel
+@{
+    ViewData["Title"] = "Mis Tickets";
+}
+
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Mis Tickets</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Historial de tus solicitudes de soporte.</p>
+    </div>
+    <a asp-page="./Create" class="btn-primary shadow-lg shadow-blue-500/30">
+        <svg class="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+        Crear Nuevo Ticket
+    </a>
+</div>
+
+<div class="card p-4 mb-6 flex flex-col sm:flex-row gap-4 justify-between items-center">
+    <div class="relative w-full sm:w-96">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+        </div>
+        <input type="text" class="input-standard pl-10" placeholder="Buscar por asunto o ID...">
+    </div>
+    
+    <div class="flex gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
+        <button class="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-900 text-white dark:bg-white dark:text-gray-900 shadow-sm transition-transform active:scale-95">Todos</button>
+        <button class="px-3 py-1.5 rounded-full text-xs font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-700 transition-colors">Abiertos</button>
+        <button class="px-3 py-1.5 rounded-full text-xs font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 dark:bg-slate-800 dark:border-slate-700 dark:text-gray-300 dark:hover:bg-slate-700 transition-colors">Resueltos</button>
+    </div>
+</div>
+
+<div class="card overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm whitespace-nowrap">
+            <thead class="uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+                <tr>
+                    <th scope="col" class="px-6 py-4 font-semibold text-gray-500 dark:text-gray-400">ID</th>
+                    <th scope="col" class="px-6 py-4 font-semibold text-gray-500 dark:text-gray-400">Asunto</th>
+                    <th scope="col" class="px-6 py-4 font-semibold text-gray-500 dark:text-gray-400">Categoría</th>
+                    <th scope="col" class="px-6 py-4 font-semibold text-gray-500 dark:text-gray-400">Estado</th>
+                    <th scope="col" class="px-6 py-4 font-semibold text-gray-500 dark:text-gray-400 text-right">Fecha</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
+                    <td class="px-6 py-4 font-mono text-gray-400">#TK-8429</td>
+                    <td class="px-6 py-4">
+                        <a href="#" class="font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            Error al iniciar sesión en VPN
+                        </a>
+                    </td>
+                    <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                            💻 IT Support
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> En Proceso
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-400 text-right">Hace 2 horas</td>
+                </tr>
+
+                <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
+                    <td class="px-6 py-4 font-mono text-gray-400">#TK-8430</td>
+                    <td class="px-6 py-4">
+                        <a href="#" class="font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                            Solicitud de nuevo monitor
+                        </a>
+                    </td>
+                    <td class="px-6 py-4 text-gray-500 dark:text-gray-400">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                            📦 Inventario
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-800">
+                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span> Pendiente
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-400 text-right">Ayer</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+        <span class="text-xs text-gray-500 dark:text-gray-400">Mostrando 1-10 de 42</span>
+        <div class="flex gap-2">
+            <button class="btn-secondary py-1 px-3 text-xs" disabled>Anterior</button>
+            <button class="btn-secondary py-1 px-3 text-xs">Siguiente</button>
+        </div>
+    </div>
+</div>

@@ -57,7 +57,7 @@ public class RegisterModel(UserManager<AppUser> userManager) : PageModel
 
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, "Customer");
+            await userManager.AddToRoleAsync(user, "Agent");
             
             // ÉXITO: Redirigimos al Login para que inicie sesión
             return RedirectToPage("/Account/Login");

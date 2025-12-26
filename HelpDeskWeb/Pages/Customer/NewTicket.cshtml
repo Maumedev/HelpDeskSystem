@@ -1,0 +1,184 @@
+﻿@page
+@model HelpDeskWeb.Pages.Customer.NewTicketModel
+@{
+    ViewData["Title"] = "Crear Ticket";
+}
+<div class="mb-6 flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Nuevo Ticket</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Describe tu problema y nuestro equipo te ayudará pronto.</p>
+    </div>
+    <a asp-page="./Index" class="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
+        &larr; Volver a la lista
+    </a>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <div class="lg:col-span-2">
+        <form method="post" enctype="multipart/form-data" class="bg-white dark:bg-slate-900 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 sm:rounded-xl md:col-span-2">
+            
+            <div class="px-4 py-6 sm:p-8">
+                <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    
+                    <div asp-validation-summary="ModelOnly" class="sm:col-span-6 rounded-md bg-red-50 p-4 mb-2 text-sm text-red-700 dark:bg-red-900/30 dark:text-red-200"></div>
+
+                    <div class="sm:col-span-6">
+                        <label asp-for="Input.Title" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Asunto del Problema</label>
+                        <div class="mt-2">
+                            <input asp-for="Input.Title" type="text" placeholder="Ej. No puedo acceder al VPN" 
+                                   class="input-standard shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:ring-slate-700" />
+                            <span asp-validation-for="Input.Title" class="text-xs text-red-600 mt-1 block"></span>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label asp-for="Input.CategoryId" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Departamento / Categoría</label>
+                        <div class="mt-2">
+                            <select asp-for="Input.CategoryId" asp-items="Model.Categories"
+                                    class="input-standard dark:bg-slate-800">
+                                <option value="">Selecciona una opción...</option>
+                            </select>
+                            <span asp-validation-for="Input.CategoryId" class="text-xs text-red-600 mt-1 block"></span>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-white mb-2">Nivel de Prioridad</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            
+                            <label class="cursor-pointer">
+                                <input type="radio" asp-for="Input.Priority" value="Low" class="peer sr-only">
+                                <div class="rounded-lg border border-gray-200 bg-white p-4 hover:bg-gray-50 peer-checked:border-green-500 peer-checked:ring-1 peer-checked:ring-green-500 peer-checked:bg-green-50 transition-all dark:bg-slate-800 dark:border-slate-700 dark:peer-checked:bg-green-900/20 dark:hover:bg-slate-700">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">Baja</span>
+                                        <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">No urgente, consulta general.</p>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" asp-for="Input.Priority" value="Medium" class="peer sr-only" checked>
+                                <div class="rounded-lg border border-gray-200 bg-white p-4 hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:ring-1 peer-checked:ring-blue-500 peer-checked:bg-blue-50 transition-all dark:bg-slate-800 dark:border-slate-700 dark:peer-checked:bg-blue-900/20 dark:hover:bg-slate-700">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">Media</span>
+                                        <span class="h-2 w-2 rounded-full bg-blue-500"></span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Afecta mi trabajo parcialmente.</p>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" asp-for="Input.Priority" value="High" class="peer sr-only">
+                                <div class="rounded-lg border border-gray-200 bg-white p-4 hover:bg-gray-50 peer-checked:border-red-500 peer-checked:ring-1 peer-checked:ring-red-500 peer-checked:bg-red-50 transition-all dark:bg-slate-800 dark:border-slate-700 dark:peer-checked:bg-red-900/20 dark:hover:bg-slate-700">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white">Alta</span>
+                                        <span class="h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                                    </div>
+                                    <p class="mt-1 text-xs text-gray-500">Sistema caído o crítico.</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <label asp-for="Input.Description" class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Descripción Detallada</label>
+                        <div class="mt-2">
+                            <textarea asp-for="Input.Description" rows="5" 
+                                class="input-standard shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-800 dark:ring-slate-700"></textarea>
+                            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Por favor, incluye mensajes de error o pasos para reproducir el problema.</p>
+                            <span asp-validation-for="Input.Description" class="text-xs text-red-600 mt-1 block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-span-full">
+                        <label class="block text-sm font-medium leading-6 text-gray-900 dark:text-white">Capturas de pantalla o Logs</label>
+                        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 dark:border-gray-600 dark:bg-slate-800/50 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors relative">
+                            <div class="text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                                </svg>
+                                <div class="mt-4 flex text-sm leading-6 text-gray-600 dark:text-gray-400 justify-center">
+                                    <label for="file-upload" class="relative cursor-pointer rounded-md bg-transparent font-semibold text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:text-blue-500">
+                                        <span>Sube un archivo</span>
+                                        @* <input id="file-upload" name="Upload" type="file" class="sr-only" onchange="updateFileName(this)"> *@
+                                        <input asp-for="Input.Upload" id="file-upload" type="file" class="sr-only" onchange="updateFileName(this)">
+                                    </label>
+                                    <p class="pl-1">o arrástralo y suéltalo</p>
+                                </div>
+                                <p class="text-xs leading-5 text-gray-600 dark:text-gray-500">PNG, JPG, PDF hasta 5MB</p>
+                                <p id="file-name" class="text-sm text-green-600 mt-2 font-medium hidden"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 dark:border-white/10 px-4 py-4 sm:px-8 bg-gray-50 dark:bg-slate-800/50 rounded-b-xl">
+                <button type="button" class="text-sm font-semibold leading-6 text-gray-900 dark:text-white hover:text-gray-700">Cancelar</button>
+                <button type="submit" class="btn-primary shadow-lg shadow-blue-500/30">
+                    Crear Ticket
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="hidden lg:block space-y-6">
+        <div class="card p-6 bg-blue-50 border-blue-100 dark:bg-blue-900/20 dark:border-blue-900">
+            <h3 class="text-base font-semibold text-blue-900 dark:text-blue-300 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Antes de reportar
+            </h3>
+            <ul class="mt-4 space-y-3 text-sm text-blue-800 dark:text-blue-200">
+                <li class="flex gap-2">
+                    <span class="text-blue-500">•</span>
+                    Revisa si hay un anuncio de mantenimiento.
+                </li>
+                <li class="flex gap-2">
+                    <span class="text-blue-500">•</span>
+                    Intenta limpiar la caché de tu navegador.
+                </li>
+                <li class="flex gap-2">
+                    <span class="text-blue-500">•</span>
+                    Si es urgente, llama a la extensión 105.
+                </li>
+            </ul>
+        </div>
+        
+        <div class="card p-6">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">Tiempos de Respuesta (SLA)</h3>
+            <dl class="mt-4 space-y-4 text-sm">
+                <div class="flex justify-between">
+                    <dt class="text-gray-500">Prioridad Alta</dt>
+                    <dd class="font-medium text-gray-900 dark:text-white">2 horas</dd>
+                </div>
+                <div class="border-t border-gray-100 dark:border-gray-700 pt-2 flex justify-between">
+                    <dt class="text-gray-500">Prioridad Media</dt>
+                    <dd class="font-medium text-gray-900 dark:text-white">24 horas</dd>
+                </div>
+                 <div class="border-t border-gray-100 dark:border-gray-700 pt-2 flex justify-between">
+                    <dt class="text-gray-500">Prioridad Baja</dt>
+                    <dd class="font-medium text-gray-900 dark:text-white">3 días</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Pequeño script para mostrar el nombre del archivo seleccionado
+        function updateFileName(input) {
+            const fileNameDisplay = document.getElementById('file-name');
+            if (input.files && input.files.length > 0) {
+                fileNameDisplay.textContent = 'Archivo seleccionado: ' + input.files[0].name;
+                fileNameDisplay.classList.remove('hidden');
+            } else {
+                fileNameDisplay.classList.add('hidden');
+            }
+        }
+    </script>
+}

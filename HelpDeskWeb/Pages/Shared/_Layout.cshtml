@@ -6,88 +6,218 @@
     <title>@ViewData["Title"] - HelpDeskWeb</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HelpDeskWeb.styles.css" asp-append-version="true" />
+    <script>
+        // 1. Aplicar tema inmediatamente al cargar
+        (function() {
+            const storedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Si hay guardado 'dark' O (no hay nada guardado Y el sistema es dark)
+            if (storedTheme === 'dark' || (!storedTheme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+
+        // 2. Función para el botón (Garantiza que la UI cambie)
+        function toggleTheme() {
+            const html = document.documentElement;
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Hacemos la función global para que el botón la encuentre
+        window.toggleTheme = toggleTheme;
+    </script>
 </head>
 <body class="bg-gray-50 font-sans w-full">
 
-    <div class="flex min-h-screen">
-        <partial name="_Sidebar" />
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-950 font-sans overflow-hidden">
+    
+    <partial name="_Sidebar" />
 
-        <div class="flex-1 flex flex-col">
-            <header class="bg-white shadow-sm h-16 flex items-center justify-between px-8 text-gray-700 w-full">
-                <div class="font-bold text-xl text-blue-600">
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <header class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 h-16 flex items-center justify-between px-6 sticky top-0 z-10 transition-colors duration-300">
+            
+            <div class="flex items-center gap-3">
+                <div class="h-6 w-1 bg-blue-500 rounded-full"></div>
+                <h1 class="text-lg font-bold text-gray-800 dark:text-white tracking-tight">
                     @ViewData["Title"]
-                </div>
+                </h1>
+            </div>
+            
+            <div class="flex items-center gap-6">
                 
-                <div class="flex items-center gap-4">
-                    <span class="text-sm font-medium text-gray-600">
-                        @User.FindFirst("FullName")?.Value
-                    </span>
-                    <form method="post" asp-page="/Account/Logout">
-                        <button type="submit" class="
-                        text-xs bg-red-50 hover:bg-red-100 px-2 py-1 rounded-lg text-red-600 font-bold transition-all border border-red-200 cursor-pointer">
-                            Cerrar Sesión
+                <button class="relative text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                    <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-gray-900"></span>
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                </button>
+                <button onclick="window.toggleTheme()" 
+                        class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500" 
+                        aria-label="Alternar tema">
+                    
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+
+                    <svg class="w-5 h-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+
+                <div class="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
+
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <div class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+                            @User.FindFirst("FullName")?.Value
+                        </div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">
+                           En línea
+                        </div>
+                    </div>
+
+                    <form method="post" asp-page="/Account/Logout" class="flex items-center">
+                        <button type="submit" title="Cerrar Sesión" 
+                                class="p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200">
+                            <svg class="w-5 h-5 transform rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
                         </button>
                     </form>
                 </div>
-            </header>
+            </div>
+        </header>
 
-            <main class="p-8 flex-grow">
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 relative scroll-smooth">
+            <div class="max-w-7xl mx-auto space-y-6">
                 @RenderBody()
-            </main>
+            </div>
 
-            <footer class="bg-white border-t border-gray-100 py-4 px-8 text-center text-xs text-gray-400">
-                &copy; 2025 HelpDesk System - IT Support
+            <footer class="mt-auto py-6 text-center">
+                <p class="text-xs text-gray-400 dark:text-gray-600">
+                    &copy; @DateTime.Now.Year HelpDesk System. Todos los derechos reservados.
+                </p>
             </footer>
-        </div>
-    </div>
+        </main>
 
+    </div>
+</div>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     <div id="global-loader" style="display: none;" class="fixed inset-0 z-[9999]">
-    <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"></div>
+        <div class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm transition-opacity"></div>
 
-    <div class="fixed inset-0 flex items-center justify-center">
-        <div class="flex flex-col items-center">
-            <svg class="animate-spin h-16 w-16 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-4 text-white text-lg font-medium tracking-wide">Procesando solicitud...</p>
+        <div class="fixed inset-0 flex items-center justify-center">
+            <div class="flex flex-col items-center">
+                <svg class="animate-spin h-16 w-16 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-4 text-white text-lg font-medium tracking-wide">Procesando solicitud...</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    window.AppLoader = {
-        show: function() {
-            const loader = document.getElementById('global-loader');
-            if (loader) loader.style.display = 'block';
-        },
-        hide: function() {
-            const loader = document.getElementById('global-loader');
-            if (loader) loader.style.display = 'none';
-        }
-    };
+    <div id="toast-container" class="fixed top-5 right-5 z-[110] flex flex-col gap-3"></div>
 
-    document.addEventListener("submit", function (e) {
-        // 1. Buscamos el formulario que disparó el evento
-        const form = e.target;
-        
-        // 2. Si el formulario tiene data-no-loader, no hacemos nada
-        if (form.dataset.noLoader === "true") return;
+    <script>
+        window.AppGui = {
+            show: function() {
+                const loader = document.getElementById('global-loader');
+                if (loader) loader.style.display = 'block';
+            },
+            hide: function() {
+                const loader = document.getElementById('global-loader');
+                if (loader) loader.style.display = 'none';
+            },
+            showToast: (message, type = 'success') => {
+                const container = document.getElementById('toast-container');
+                if(!container) return;
 
-        // 3. Pequeño delay para dejar que la validación de ASP.NET (jQuery Unobtrusive) actúe
-        setTimeout(() => {
-            // Verificamos si el formulario es válido (para no bloquear si faltan campos)
-            const isInvalid = form.querySelector('.input-validation-error');
-            if (!isInvalid) {
-                window.AppLoader.show();
+                const color = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+                const toast = document.createElement('div');
+                toast.className = `${color} text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-bounce-in mb-3`;
+                toast.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> <span>${message}</span>`;
+                
+                container.appendChild(toast);
+                setTimeout(() => { 
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 500);
+                }, 4000);
             }
-        }, 10);
-    });
+        };
 
-</script>
+        document.addEventListener("submit", function (e) {
+            // 1. Buscamos el formulario que disparó el evento
+            const form = e.target;
+            
+            // 2. Si el formulario tiene data-no-loader, no hacemos nada
+            if (form.dataset.noLoader === "true") return;
+
+            // 3. Pequeño delay para dejar que la validación de ASP.NET (jQuery Unobtrusive) actúe
+            setTimeout(() => {
+                // Verificamos si el formulario es válido (para no bloquear si faltan campos)
+                const isInvalid = form.querySelector('.input-validation-error');
+                if (!isInvalid) {
+                    window.AppGui.show();
+                }
+            }, 10);
+        });
+
+    </script>
+
+    @if (TempData["ToastMessage"] != null)
+    {
+        var messageData = TempData["ToastMessage"].ToString();
+        var parts = messageData.Split('|');
+        if (parts.Length == 2)
+        {
+            <script>
+                // Usamos un pequeño delay para asegurar que el DOM y CSS terminaron de cargar
+                setTimeout(() => {
+                    window.AppGui.showToast("@Html.Raw(parts[1])", "@parts[0]");
+                }, 100);
+            </script>
+        }
+    }
+
+    @if (TempData["ShowLoader"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                window.AppGui.showLoader();
+            });
+        </script>
+    }
+<style>
+    .animate-bounce-in { animation: bounceIn 0.5s ease; }
+    
+    /* Usamos @@ para que Razor no intente compilarlo como C# */
+    @@keyframes bounceIn {
+        0% { transform: translateX(100%); opacity: 0; }
+        70% { transform: translateX(-10px); }
+        100% { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Lo mismo para el spinner si lo tienes con CSS nativo */
+    @@keyframes loader-spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
 </script>
 </body>
 </html>

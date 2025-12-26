@@ -1,79 +1,144 @@
 ﻿@page
 @model HelpDeskWeb.Pages.Account.RegisterModel
 @{
-    ViewData["Title"] = "Iniciar Sesión";
-    Layout = null; // Usamos layout null para login limpio o usa tu _Layout
+    ViewData["Title"] = "Registro";
+    Layout = null;
 }
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-slate-50">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - HelpDesk</title>
+    <title>@ViewData["Title"] - HelpDesk Pro</title>
+    
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: { 600: '#2563eb', 700: '#1d4ed8' } }
+                }
+            },
+            plugins: [
+                function({ addBase, theme }) {
+                    addBase({
+                        'input, textarea, select': {
+                            display: 'block', width: '100%', borderRadius: theme('borderRadius.md'),
+                            borderWidth: '0', padding: '0.625rem 0.875rem',
+                            color: theme('colors.gray.900'), boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                            backgroundColor: 'white', ringWidth: '1px', ringColor: theme('colors.gray.300'),
+                            ringInset: 'inset',
+                        },
+                        'input:focus, textarea:focus, select:focus': {
+                            outline: 'none', ringWidth: '2px', ringColor: theme('colors.primary.600'),
+                        }
+                    })
+                }
+            ]
+        }
+    </script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans text-slate-900">
 
-    <div class=" w-[500px] bg-white rounded-lg shadow-md p-5">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Registro</h2>
-
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm mb-4 text-center"></div>
-
-            <div class="mb-4 ">
-                <label asp-for="Input.FullName" class="block text-gray-700 text-sm font-bold mb-2">Nombre Completo</label>
-                <input asp-for="Input.FullName" class="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre Apellidos" />
-                <span asp-validation-for="Input.FullName" class="text-red-500 text-xs italic"></span>
-            </div>
-
-            <div class="mb-4">
-                <label asp-for="Input.Username" class="block text-gray-700 text-sm font-bold mb-2">Usuario</label>
-                <input asp-for="Input.Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="username" />
-                <span asp-validation-for="Input.Username" class="text-red-500 text-xs italic"></span>
-            </div>
-
-            <div class="mb-4">
-                <label asp-for="Input.Email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input asp-for="Input.Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="usuario@ejemplo.com" />
-                <span asp-validation-for="Input.Email" class="text-red-500 text-xs italic"></span>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2">Departamento</label>
-                <select asp-for="Input.Department" class="w-full border rounded p-2 appearance-none">
-                    <option value="" disabled selected>Seleccione...</option>
-                    <option value="IT">IT</option>
-                    <option value="RH">Recursos Humanos</option>
-                    <option value="Ventas">Ventas</option>
-                </select>
-                <span asp-validation-for="Input.Department" class="text-red-500 text-xs italic"></span>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 font-bold mb-2">Seniority Level</label>
-                <select asp-for="Input.SeniorityLevel" class="w-full border rounded p-2">
-                    <option value="0" disabled selected> Seleccione...</option>
-                    <option value="1">Senior</option>
-                    <option value="2">Mid-Senior</option>
-                    <option value="3">Junior</option>
-                </select>
-                <span asp-validation-for="Input.SeniorityLevel" class="text-red-500 text-xs italic"></span>
-            </div>
-
-            <div class="mb-6">
-                <label asp-for="Input.Password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
-                <input asp-for="Input.Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="******************" />
-                <span asp-validation-for="Input.Password" class="text-red-500 text-xs italic"></span>
-                <a href="Login" class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200 ">¿Ya tienes cuenta? Iniciar Sesión</a>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150">
-                    Registrar
-                </button>
-            </div>
-        </form>
+    <div class="sm:mx-auto sm:w-full sm:max-w-lg">
+         <div class="mx-auto h-10 w-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center text-primary-600 shadow-sm mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+        </div>
+        <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-slate-900">
+            Crear nueva cuenta
+        </h2>
+        <p class="mt-1 text-center text-sm text-slate-500">
+            Únete al equipo de soporte y gestión.
+        </p>
     </div>
 
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-lg">
+        <div class="bg-white px-6 py-10 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
+            
+            <form method="post" class="space-y-5">
+                <div asp-validation-summary="ModelOnly" class="rounded-md bg-red-50 p-3 text-sm text-red-600 text-center border border-red-100"></div>
+
+                <div>
+                    <label asp-for="Input.FullName" class="block text-sm font-medium leading-6 text-slate-900">Nombre Completo</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.FullName" type="text" placeholder="Ej. Ana García" />
+                        <span asp-validation-for="Input.FullName" class="text-xs text-red-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Input.Username" class="block text-sm font-medium leading-6 text-slate-900">Usuario</label>
+                        <div class="mt-2">
+                            <input asp-for="Input.Username" type="text" placeholder="agarcia" />
+                            <span asp-validation-for="Input.Username" class="text-xs text-red-500 mt-1 block"></span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label asp-for="Input.Email" class="block text-sm font-medium leading-6 text-slate-900">Email Corporativo</label>
+                        <div class="mt-2">
+                            <input asp-for="Input.Email" type="email" placeholder="ana@empresa.com" />
+                            <span asp-validation-for="Input.Email" class="text-xs text-red-500 mt-1 block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+                    <div>
+                        <label asp-for="Input.Department" class="block text-sm font-medium leading-6 text-slate-900">Departamento</label>
+                        <div class="mt-2">
+                            <select asp-for="Input.Department">
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="IT">IT Support</option>
+                                <option value="RH">Recursos Humanos</option>
+                                <option value="Ventas">Ventas</option>
+                                <option value="Finanzas">Finanzas</option>
+                            </select>
+                            <span asp-validation-for="Input.Department" class="text-xs text-red-500 mt-1 block"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label asp-for="Input.SeniorityLevel" class="block text-sm font-medium leading-6 text-slate-900">Nivel Seniority</label>
+                        <div class="mt-2">
+                            <select asp-for="Input.SeniorityLevel">
+                                <option value="0" disabled selected>Seleccione...</option>
+                                <option value="1">Junior</option>
+                                <option value="2">Mid-Level</option>
+                                <option value="3">Senior</option>
+                            </select>
+                            <span asp-validation-for="Input.SeniorityLevel" class="text-xs text-red-500 mt-1 block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Input.Password" class="block text-sm font-medium leading-6 text-slate-900">Contraseña</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.Password" type="password" placeholder="Mínimo 8 caracteres" />
+                        <span asp-validation-for="Input.Password" class="text-xs text-red-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="flex w-full justify-center rounded-lg bg-primary-600 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all duration-200">
+                        Completar Registro
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <p class="text-center text-sm text-slate-500">
+                    ¿Ya tienes una cuenta?
+                    <a asp-page="Login" class="font-semibold text-primary-600 hover:text-primary-500">
+                        Inicia Sesión aquí
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

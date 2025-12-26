@@ -2,43 +2,125 @@
 @model HelpDeskWeb.Pages.Account.LoginModel
 @{
     ViewData["Title"] = "Iniciar Sesión";
-    Layout = null; // Usamos layout null para login limpio o usa tu _Layout
+    Layout = null;
 }
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-slate-50">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - HelpDesk</title>
+    <title>@ViewData["Title"] - HelpDesk Pro</title>
+    
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: { 600: '#2563eb', 700: '#1d4ed8' } // Azul corporativo
+                    }
+                }
+            },
+            plugins: [
+                // Plugin oficial para formularios (hace que los inputs se vean pro autom.)
+                function({ addBase, theme }) {
+                    addBase({
+                        'input, textarea, select': {
+                            display: 'block',
+                            width: '100%',
+                            borderRadius: theme('borderRadius.md'),
+                            borderWidth: '0',
+                            padding: '0.625rem 0.875rem',
+                            color: theme('colors.gray.900'),
+                            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                            backgroundColor: 'white',
+                            ringWidth: '1px',
+                            ringColor: theme('colors.gray.300'),
+                            ringInset: 'inset',
+                        },
+                        'input:focus, textarea:focus, select:focus': {
+                            outline: 'none',
+                            ringWidth: '2px',
+                            ringColor: theme('colors.primary.600'),
+                        }
+                    })
+                }
+            ]
+        }
+    </script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans text-slate-900">
 
-    <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">HelpDesk</h2>
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="mx-auto h-12 w-12 bg-primary-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-slate-900">
+            Bienvenido de nuevo
+        </h2>
+        <p class="mt-1 text-center text-sm text-slate-500">
+            Ingresa tus credenciales para acceder al sistema
+        </p>
+    </div>
 
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm mb-4 text-center"></div>
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white px-6 py-10 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
+            
+            <form method="post" class="space-y-6">
+                <div asp-validation-summary="ModelOnly" class="rounded-md bg-red-50 p-3 text-sm text-red-600 text-center border border-red-100"></div>
 
-            <div class="mb-4">
-                <label asp-for="Input.Username" class="block text-gray-700 text-sm font-bold mb-2">Usuario</label>
-                <input asp-for="Input.Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="usuario@ejemplo.com" />
-                <span asp-validation-for="Input.Username" class="text-red-500 text-xs italic"></span>
+                <div>
+                    <label asp-for="Input.Username" class="block text-sm font-medium leading-6 text-slate-900">Usuario</label>
+                    <div class="mt-2">
+                        <input asp-for="Input.Username" type="text" placeholder="ej. jdoe" required />
+                        <span asp-validation-for="Input.Username" class="text-xs text-red-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between">
+                        <label asp-for="Input.Password" class="block text-sm font-medium leading-6 text-slate-900">Contraseña</label>
+                        <div class="text-sm">
+                            <a href="#" class="font-semibold text-primary-600 hover:text-primary-500">¿Olvidaste tu contraseña?</a>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <input asp-for="Input.Password" type="password" placeholder="••••••••" required />
+                        <span asp-validation-for="Input.Password" class="text-xs text-red-500 mt-1 block"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="flex w-full justify-center rounded-lg bg-primary-600 px-3 py-2.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-all duration-200">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="bg-white px-2 text-slate-500">¿Nuevo en la plataforma?</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <a asp-page="Register" class="font-semibold text-primary-600 hover:text-primary-500 hover:underline">
+                        Crear una cuenta
+                    </a>
+                </div>
             </div>
-
-            <div class="mb-6">
-                <label asp-for="Input.Password" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
-                <input asp-for="Input.Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="******************" />
-                <span asp-validation-for="Input.Password" class="text-red-500 text-xs italic"></span>
-                <a href="Register" class="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200 ">¿No tienes cuenta? Registrate</a>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150">
-                    Ingresar
-                </button>
-            </div>
-        </form>
+        </div>
+        
+        <p class="mt-8 text-center text-xs text-slate-400">
+            &copy; 2025 HelpDesk System V1. Todos los derechos reservados.
+        </p>
     </div>
 
 </body>

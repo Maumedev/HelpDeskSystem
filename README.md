@@ -1,3 +1,3 @@
 # Help Desk System
 
-Proyecto de ejemplo para implementaciones de Identity de .NET en razor pages
+Example proyect to ASP NET Core Identity implementation in App Web Razor Pages .NET
